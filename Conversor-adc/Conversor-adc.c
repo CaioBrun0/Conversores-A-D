@@ -125,6 +125,7 @@ int main()
             pwm_set_gpio_level(LED_a, 0);
         }
         
+        
         ssd1306_fill(&ssd, false);
         ssd1306_rect(&ssd, 3, 3, 122, 60, cor, !cor); // Desenha um retângulo
         ssd1306_send_data(&ssd); // Atualiza o display
