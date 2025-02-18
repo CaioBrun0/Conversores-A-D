@@ -27,7 +27,7 @@ ssd1306_t ssd;
 #define SQUARE_SIZE 8
 
 //Variaveis para tratar os botões
-const uint32_t debounce_time_ms = 150;
+const uint32_t debounce_time_ms = 200;
 volatile bool button_a_pressed = false;
 volatile bool button_joy_pressed = false;
 absolute_time_t last_interrupt_time = 0;
@@ -58,7 +58,7 @@ void initialization(){
 
     //Botão A
     gpio_init(button_A);
-    gpio_set_dir(button_A, GPIO_OUT);
+    gpio_set_dir(button_A, GPIO_IN);
     gpio_pull_up(button_A);
 
     //Botão do joystick
@@ -91,16 +91,13 @@ void gpio_irq_handler(uint gpio, uint32_t events){
     absolute_time_t now = get_absolute_time();
     if (absolute_time_diff_us(last_interrupt_time, now) < debounce_time_ms * 1000)
         return;
+    last_interrupt_time = now;
 
     if(gpio == button_A){
-        button_a_pressed = false;
+        button_a_pressed = !button_a_pressed;
     }else if (gpio == button_joy){
         button_joy_pressed = !button_joy_pressed;
-        if (gpio_get(LED_v)){
-            gpio_put(LED_v, false);
-        } else if (gpio_get(LED_v) == true){
-            gpio_put(LED_v, true);
-        }
+        gpio_put(LED_v, !gpio_get(LED_v));
        
     }
 
@@ -162,13 +159,12 @@ int main()
             }
         }
 
-        
 
         if(button_joy_pressed){
-            ssd1306_rect(&ssd, 3, 3, 122, 60, cor, !cor); // Desenha um retângulo
+            ssd1306_draw_string(&ssd, "SEGUNDA FASE", 16, 6); // Desenha uma string
+            ssd1306_draw_string(&ssd, "CAIO BRUNO", 20, 55); // Desenha uma string
         }else {
-            ssd1306_draw_string(&ssd, "SEGUNDA FASE", 8, 6); // Desenha uma string
-
+            ssd1306_rect(&ssd, 3, 3, 122, 60, cor, !cor); // Desenha um retângulo
         }
         
         ssd1306_rect(&ssd, square_x, square_y, SQUARE_SIZE, SQUARE_SIZE, true, true);
