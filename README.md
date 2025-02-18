@@ -63,6 +63,9 @@ O joystick controla a posição de um quadrado 8x8 no display OLED. Os valores a
 3. Envie o binário gerado para o Raspberry Pi Pico.
 4. Conecte o Pico a uma fonte de alimentação e observe o comportamento do display e dos LEDs.
 
+## Vídeo explicativo no YouTube
+https://youtu.be/-Ru_k-6chzo?si=BlgMI2SkESC1P1QJ
+
 ## Autor
 Desenvolvido por **Caio Bruno**
 
