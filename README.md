@@ -1,4 +1,4 @@
-# README - Projeto de Controle com Joystick e Display OLED
+# Projeto de Controle com Joystick e Display OLED
 
 ## Descrição
 Este projeto utiliza um joystick analógico para controlar um quadrado em um display OLED SSD1306, juntamente com LEDs controlados via PWM. Foi desenvolvido para a placa Raspberry Pi Pico e faz uso das bibliotecas da RP2040 para manipulação de GPIO, ADC, I2C e PWM.
