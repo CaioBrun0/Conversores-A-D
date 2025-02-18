@@ -93,7 +93,16 @@ void ssd1306_fill(ssd1306_t *ssd, bool value) {
     }
 }
 
-
+void ssd1306_draw_dotted_rect(ssd1306_t *ssd, int x, int y, int w, int h, bool color) {
+  for (int i = 0; i < w; i += 2) {
+      ssd1306_draw_char(ssd, x + i, y, color);          // linha superior
+      ssd1306_draw_char(ssd, x + i, y + h - 1, color);  // linha inferior
+  }
+  for (int i = 0; i < h; i += 2) {
+      ssd1306_draw_char(ssd, x, y + i, color);          // linha esquerda
+      ssd1306_draw_char(ssd, x + w - 1, y + i, color);  // linha direita
+  }
+}
 
 void ssd1306_rect(ssd1306_t *ssd, uint8_t top, uint8_t left, uint8_t width, uint8_t height, bool value, bool fill) {
   for (uint8_t x = left; x < left + width; ++x) {
