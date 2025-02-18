@@ -127,10 +127,8 @@ int main()
         adc_select_input(0);
         uint16_t vry_value = adc_read();
 
-        // Mapeando valores para o display
-        square_x = map_value(vry_value, 0, 4095, 0, WIDTH - SQUARE_SIZE);
-        square_y = map_value(vrx_value, 0, 4095, 0, HEIGHT - SQUARE_SIZE);
-        
+        square_x = map_value(vry_value, 0, 4095, HEIGHT - SQUARE_SIZE, 0);
+        square_y = map_value(vrx_value, 0, 4095, 0 , WIDTH - SQUARE_SIZE);
 
         ssd1306_fill(&ssd, false);
 
