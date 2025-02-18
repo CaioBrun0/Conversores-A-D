@@ -86,7 +86,7 @@ int map_value(int value, int in_min, int in_max, int out_min, int out_max) {
     return (value - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
 
-
+//Função de interrupção
 void gpio_irq_handler(uint gpio, uint32_t events){
     absolute_time_t now = get_absolute_time();
     if (absolute_time_diff_us(last_interrupt_time, now) < debounce_time_ms * 1000)
@@ -105,7 +105,7 @@ void gpio_irq_handler(uint gpio, uint32_t events){
 
 int main()
 {
-    initialization();
+    initialization(); //Inicializa os pinos
 
     // Limpa o display. O display inicia com todos os pixels apagados.
     ssd1306_fill(&ssd, false);
@@ -118,6 +118,7 @@ int main()
     uint32_t last_print_time = 0; 
     bool cor = true;
 
+    //Chamadas de interrupções
     gpio_set_irq_enabled_with_callback(button_A, GPIO_IRQ_EDGE_FALL, true, &gpio_irq_handler);
     gpio_set_irq_enabled_with_callback(button_joy, GPIO_IRQ_EDGE_FALL, true, &gpio_irq_handler);
 
@@ -127,6 +128,7 @@ int main()
         adc_select_input(0);
         uint16_t vry_value = adc_read();
 
+        //Converte os valores da entrada ADC
         square_x = map_value(vry_value, 0, 4095, HEIGHT - SQUARE_SIZE, 0);
         square_y = map_value(vrx_value, 0, 4095, 0 , WIDTH - SQUARE_SIZE);
 
@@ -156,19 +158,16 @@ int main()
             }
         }
 
-
+        //Se o botão do joystick for pressionado
         if(button_joy_pressed){
-            ssd1306_draw_string(&ssd, "SEGUNDA FASE", 16, 6); // Desenha uma string
-            ssd1306_draw_string(&ssd, "CAIO BRUNO", 20, 55); // Desenha uma string
+            ssd1306_draw_string(&ssd, "SEGUNDA FASE", 16, 6); // Escreve na parte de cima
+            ssd1306_draw_string(&ssd, "CAIO BRUNO", 20, 55); // Escreve na parte de baixo
         }else {
             ssd1306_rect(&ssd, 3, 3, 122, 60, cor, !cor); // Desenha um retângulo
         }
         
-        ssd1306_rect(&ssd, square_x, square_y, SQUARE_SIZE, SQUARE_SIZE, true, true);
+        ssd1306_rect(&ssd, square_x, square_y, SQUARE_SIZE, SQUARE_SIZE, true, true);//Deseho um quadrado no Display que vai seguir o Joystick
         ssd1306_send_data(&ssd); // Atualiza o display
-        
-
-        
         
         sleep_ms(100);
     }
