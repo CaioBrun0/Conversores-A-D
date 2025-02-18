@@ -19,7 +19,7 @@
 #define I2C_SDA 14
 #define I2C_SCL 15
 #define endereco 0x3C
-uint pwm_wrap = 4096;  
+uint pwm_wrap = 4096;   
 
 ssd1306_t ssd; 
 #define WIDTH 128 //128
@@ -98,7 +98,6 @@ void gpio_irq_handler(uint gpio, uint32_t events){
     }else if (gpio == button_joy){
         button_joy_pressed = !button_joy_pressed;
         gpio_put(LED_v, !gpio_get(LED_v));
-       
     }
 
 }
